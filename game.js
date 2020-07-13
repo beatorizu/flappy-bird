@@ -3,6 +3,9 @@ console.log('[beatorizu] Flappy Bird');
 const sprites = new Image();
 sprites.src = 'assets/sprites.png';
 
+const hitSound = new Audio();
+hitSound.src = 'assets/hit.wav';
+
 const canvas = document.querySelector('canvas');
 const context = canvas.getContext('2d');
 
@@ -82,7 +85,10 @@ const createFlappyBird = () => {
     },
     update: () => {
       if (isColliding(flappyBird, ground)) {
-        changeScene(Scenes.START);
+        hitSound.play();
+        setTimeout(() => {
+          changeScene(Scenes.START);
+        }, 500);
         return;
       }
       flappyBird.speed += flappyBird.gravity;
