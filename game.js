@@ -59,28 +59,47 @@ const ground = {
   }
 }
 
-const flappyBird = {
-  spriteX: 0,
-  spriteY: 0,
-  width: 33,
-  height: 24,
-  x: 10,
-  y: 50,
-  speed: 0,
-  gravity: 0.25,
-  update: () => {
-    flappyBird.speed += flappyBird.gravity;
-    flappyBird.y += flappyBird.speed;
-  },
-  draw: () => {
-    context.drawImage(
-      sprites,
-      flappyBird.spriteX, flappyBird.spriteY,
-      flappyBird.width, flappyBird.height,
-      flappyBird.x, flappyBird.y,
-      flappyBird.width, flappyBird.height,
-    )
+const isColliding = (flappyBird, ground) => {
+  const flappyBirdY = flappyBird.y + flappyBird.height;
+  const groundY = ground.y;
+
+  return flappyBirdY >= groundY;
+}
+
+const createFlappyBird = () => {
+  const flappyBird = {
+    spriteX: 0,
+    spriteY: 0,
+    width: 33,
+    height: 24,
+    x: 10,
+    y: 50,
+    speed: 0,
+    gravity: 0.25,
+    jumpHeight: 4.6,
+    jump: () => {
+      flappyBird.speed -= flappyBird.jumpHeight;
+    },
+    update: () => {
+      if (isColliding(flappyBird, ground)) {
+        changeScene(Scenes.START);
+        return;
+      }
+      flappyBird.speed += flappyBird.gravity;
+      flappyBird.y += flappyBird.speed;
+    },
+    draw: () => {
+      context.drawImage(
+        sprites,
+        flappyBird.spriteX, flappyBird.spriteY,
+        flappyBird.width, flappyBird.height,
+        flappyBird.x, flappyBird.y,
+        flappyBird.width, flappyBird.height,
+      )
+    }
   }
+
+  return flappyBird;
 }
 
 const getReadyMessage = {
@@ -103,15 +122,24 @@ const getReadyMessage = {
 
 // Scenes
 
+const globals = {};
 let activeScene = {}
-const changeScene = newScene => activeScene = newScene;
+const changeScene = newScene => {
+  activeScene = newScene;
+  if (activeScene.init) {
+    activeScene.init();
+  }
+}
 
 const Scenes = {
   START: {
+    init: () => {
+      globals.flappyBird = createFlappyBird();
+    },
     draw: () => {
       background.draw();
       ground.draw();
-      flappyBird.draw();
+      globals.flappyBird.draw();
       getReadyMessage.draw();
     },
     click: () => {
@@ -123,10 +151,13 @@ const Scenes = {
     draw: () => {
       background.draw();
       ground.draw();
-      flappyBird.draw();
+      globals.flappyBird.draw();
+    },
+    click: () => {
+      globals.flappyBird.jump()
     },
     update: () => {
-      flappyBird.update();
+      globals.flappyBird.update();
     }
   }
 }
