@@ -45,6 +45,12 @@ const createGround = () => {
     height: 112,
     x: 0,
     y: canvas.height - 112,
+    update: () => {
+      const groundMove = 1;
+      const repeatWhen = ground.width / 2;
+      const move = ground.x - groundMove;
+      ground.x = move % repeatWhen;
+    },
     draw: () => {
       context.drawImage(
         sprites,
@@ -156,7 +162,9 @@ const Scenes = {
     click: () => {
       changeScene(Scenes.GAME);
     },
-    update: () => {}
+    update: () => {
+      globals.ground.update();
+    }
   },
   GAME: {
     draw: () => {
