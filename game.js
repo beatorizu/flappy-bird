@@ -37,29 +37,33 @@ const background = {
   }
 }
 
-const ground = {
-  spriteX: 0,
-  spriteY: 610,
-  width: 224,
-  height: 112,
-  x: 0,
-  y: canvas.height - 112,
-  draw: () => {
-    context.drawImage(
-      sprites,
-      ground.spriteX, ground.spriteY,
-      ground.width, ground.height,
-      ground.x, ground.y,
-      ground.width, ground.height,
-    )
-    context.drawImage(
-      sprites,
-      ground.spriteX, ground.spriteY,
-      ground.width, ground.height,
-      (ground.x + ground.width), ground.y,
-      ground.width, ground.height,
-    )
+const createGround = () => {
+  const ground = {
+    spriteX: 0,
+    spriteY: 610,
+    width: 224,
+    height: 112,
+    x: 0,
+    y: canvas.height - 112,
+    draw: () => {
+      context.drawImage(
+        sprites,
+        ground.spriteX, ground.spriteY,
+        ground.width, ground.height,
+        ground.x, ground.y,
+        ground.width, ground.height,
+      )
+      context.drawImage(
+        sprites,
+        ground.spriteX, ground.spriteY,
+        ground.width, ground.height,
+        (ground.x + ground.width), ground.y,
+        ground.width, ground.height,
+      )
+    }
   }
+
+  return ground;
 }
 
 const isColliding = (flappyBird, ground) => {
@@ -84,7 +88,7 @@ const createFlappyBird = () => {
       flappyBird.speed -= flappyBird.jumpHeight;
     },
     update: () => {
-      if (isColliding(flappyBird, ground)) {
+      if (isColliding(flappyBird, globals.ground)) {
         hitSound.play();
         setTimeout(() => {
           changeScene(Scenes.START);
@@ -141,10 +145,11 @@ const Scenes = {
   START: {
     init: () => {
       globals.flappyBird = createFlappyBird();
+      globals.ground = createGround();
     },
     draw: () => {
       background.draw();
-      ground.draw();
+      globals.ground.draw();
       globals.flappyBird.draw();
       getReadyMessage.draw();
     },
@@ -156,7 +161,7 @@ const Scenes = {
   GAME: {
     draw: () => {
       background.draw();
-      ground.draw();
+      globals.ground.draw();
       globals.flappyBird.draw();
     },
     click: () => {
