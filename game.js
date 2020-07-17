@@ -6,6 +6,8 @@ sprites.src = 'assets/sprites.png';
 const hitSound = new Audio();
 hitSound.src = 'assets/hit.wav';
 
+let frames = 0;
+
 const canvas = document.querySelector('canvas');
 const context = canvas.getContext('2d');
 
@@ -81,8 +83,6 @@ const isColliding = (flappyBird, ground) => {
 
 const createFlappyBird = () => {
   const flappyBird = {
-    spriteX: 0,
-    spriteY: 0,
     width: 33,
     height: 24,
     x: 10,
@@ -104,10 +104,29 @@ const createFlappyBird = () => {
       flappyBird.speed += flappyBird.gravity;
       flappyBird.y += flappyBird.speed;
     },
+    moves: [
+      { spriteX: 0, spriteY: 0 },
+      { spriteX: 0, spriteY: 26 },
+      { spriteX: 0, spriteY: 52 },
+      { spriteX: 0, spriteY: 26 }
+    ],
+    currentFrame: 0,
+    updateCurrentFrame: () => {
+      const frameInterval = 10;
+      const overFrame = frames % frameInterval === 0;
+      if (overFrame) {
+        const incrementBase = 1;
+        const increment = incrementBase + flappyBird.currentFrame;
+        const repeatBase = flappyBird.moves.length;
+        flappyBird.currentFrame = increment % repeatBase;
+      }
+    },
     draw: () => {
+      flappyBird.updateCurrentFrame();
+      const { spriteX, spriteY } = flappyBird.moves [flappyBird.currentFrame];
       context.drawImage(
         sprites,
-        flappyBird.spriteX, flappyBird.spriteY,
+        spriteX, spriteY,
         flappyBird.width, flappyBird.height,
         flappyBird.x, flappyBird.y,
         flappyBird.width, flappyBird.height,
@@ -185,6 +204,7 @@ function loop() {
   activeScene.draw();
   activeScene.update();
 
+  frames += 1;
   requestAnimationFrame(loop);
 }
 
