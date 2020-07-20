@@ -149,10 +149,9 @@ const createPipes = () => {
       spriteX: 52,
       spriteY: 169
     },
-    space: 80,
+    distanceBetweenPipes: 80,
     draw: () => {
       pipes.pairs.forEach(pair => {
-        const distanceBetweenPipes = 90;
         const randomY = pair.y;
 
         const skyPipeX = pair.x;
@@ -166,7 +165,7 @@ const createPipes = () => {
         )
 
         const groundPipeX = pair.x;
-        const groundPipeY = pipes.height + distanceBetweenPipes + randomY;
+        const groundPipeY = pipes.height + pipes.distanceBetweenPipes + randomY;
         context.drawImage(
           sprites,
           pipes.ground.spriteX, pipes.ground.spriteY,
@@ -174,7 +173,30 @@ const createPipes = () => {
           groundPipeX, groundPipeY,
           pipes.width, pipes.height,
         )
+
+        pair.skyPipe = {
+          x: skyPipeX,
+          y: pipes.height + skyPipeY
+        }
+        pair.groundPipe = {
+          x: groundPipeX,
+          y: groundPipeY
+        }
       });
+    },
+    isColliding: pair => {
+      const flappyBirdHead = globals.flappyBird.y
+      const flappyBirdFeet = globals.flappyBird.y + globals.flappyBird.height;
+
+      if (globals.flappyBird.x >= pair.x) {
+        if (flappyBirdHead <= pair.skyPipe.y) {
+          return true;
+        }
+        if (flappyBirdFeet >= pair.skyPipe.y) {
+          return true;
+        }
+        return false;
+      }
     },
     pairs: [],
     update: () => {
@@ -188,6 +210,10 @@ const createPipes = () => {
 
       pipes.pairs.forEach(pair => {
         pair.x -= 2;
+
+        if (pipes.isColliding(pair)) {
+          changeScene(Scenes.START)
+        }
 
         if (pair.x <= -pipes.width) {
           pipes.pairs.shift();
@@ -238,7 +264,6 @@ const Scenes = {
     draw: () => {
       background.draw();
       globals.flappyBird.draw();
-      globals.pipes.draw();
       globals.ground.draw();
       getReadyMessage.draw();
     },
@@ -247,12 +272,12 @@ const Scenes = {
     },
     update: () => {
       globals.ground.update();
-      globals.pipes.update();
     }
   },
   GAME: {
     draw: () => {
       background.draw();
+      globals.pipes.draw();
       globals.ground.draw();
       globals.flappyBird.draw();
     },
@@ -260,6 +285,8 @@ const Scenes = {
       globals.flappyBird.jump()
     },
     update: () => {
+      globals.pipes.update();
+      globals.ground.update();
       globals.flappyBird.update();
     }
   }
