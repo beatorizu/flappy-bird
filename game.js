@@ -11,33 +11,7 @@ let frames = 0;
 const canvas = document.querySelector('canvas');
 const context = canvas.getContext('2d');
 
-const background = {
-  spriteX: 390,
-  spriteY: 0,
-  width: 275,
-  height: 204,
-  x: 0,
-  y: canvas.height - 204,
-  draw: () => {
-    context.fillStyle = '#70c5ce';
-    context.fillRect(0, 0, canvas.width, canvas.height)
-
-    context.drawImage(
-      sprites,
-      background.spriteX, background.spriteY,
-      background.width, background.height,
-      background.x, background.y,
-      background.width, background.height,
-    )
-    context.drawImage(
-      sprites,
-      background.spriteX, background.spriteY,
-      background.width, background.height,
-      (background.x + background.width), background.y,
-      background.width, background.height,
-    )
-  }
-}
+const background = new Background(sprites, 390, 0, 275, 204, 0, canvas.height - 204)
 
 const createGround = () => {
   const ground = new Ground(sprites, 0, 610, 224, 112, 0, canvas.height - 112);
