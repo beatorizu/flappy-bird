@@ -40,36 +40,7 @@ const background = {
 }
 
 const createGround = () => {
-  const ground = {
-    spriteX: 0,
-    spriteY: 610,
-    width: 224,
-    height: 112,
-    x: 0,
-    y: canvas.height - 112,
-    update: () => {
-      const groundMove = 1;
-      const repeatWhen = ground.width / 2;
-      const move = ground.x - groundMove;
-      ground.x = move % repeatWhen;
-    },
-    draw: () => {
-      context.drawImage(
-        sprites,
-        ground.spriteX, ground.spriteY,
-        ground.width, ground.height,
-        ground.x, ground.y,
-        ground.width, ground.height,
-      )
-      context.drawImage(
-        sprites,
-        ground.spriteX, ground.spriteY,
-        ground.width, ground.height,
-        (ground.x + ground.width), ground.y,
-        ground.width, ground.height,
-      )
-    }
-  }
+  const ground = new Ground(sprites, 0, 610, 224, 112, 0, canvas.height - 112);
 
   return ground;
 }
