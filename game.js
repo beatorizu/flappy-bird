@@ -151,28 +151,48 @@ const createPipes = () => {
     },
     space: 80,
     draw: () => {
-      const distanceBetweenPipes = 90;
-      const randomY = -139;
+      pipes.pairs.forEach(pair => {
+        const distanceBetweenPipes = 90;
+        const randomY = pair.y;
 
-      const skyPipeX = 220;
-      const skyPipeY = randomY;
-      context.drawImage(
-        sprites,
-        pipes.sky.spriteX, pipes.sky.spriteY,
-        pipes.width, pipes.height,
-        skyPipeX, skyPipeY,
-        pipes.width, pipes.height,
-      )
+        const skyPipeX = pair.x;
+        const skyPipeY = randomY;
+        context.drawImage(
+          sprites,
+          pipes.sky.spriteX, pipes.sky.spriteY,
+          pipes.width, pipes.height,
+          skyPipeX, skyPipeY,
+          pipes.width, pipes.height,
+        )
 
-      const groundPipeX = 220;
-      const groundPipeY = pipes.height + distanceBetweenPipes + randomY;
-      context.drawImage(
-        sprites,
-        pipes.ground.spriteX, pipes.ground.spriteY,
-        pipes.width, pipes.height,
-        groundPipeX, groundPipeY,
-        pipes.width, pipes.height,
-      )
+        const groundPipeX = pair.x;
+        const groundPipeY = pipes.height + distanceBetweenPipes + randomY;
+        context.drawImage(
+          sprites,
+          pipes.ground.spriteX, pipes.ground.spriteY,
+          pipes.width, pipes.height,
+          groundPipeX, groundPipeY,
+          pipes.width, pipes.height,
+        )
+      });
+    },
+    pairs: [],
+    update: () => {
+      const overFrame = frames % 100 === 0;
+      if (overFrame) {
+        pipes.pairs.push({
+          x: canvas.width,
+          y: -150 * (Math.random() + 1)
+        })
+      }
+
+      pipes.pairs.forEach(pair => {
+        pair.x -= 2;
+
+        if (pair.x <= -pipes.width) {
+          pipes.pairs.shift();
+        }
+      })
     }
   }
 
@@ -217,9 +237,9 @@ const Scenes = {
     },
     draw: () => {
       background.draw();
-      globals.ground.draw();
       globals.flappyBird.draw();
       globals.pipes.draw();
+      globals.ground.draw();
       getReadyMessage.draw();
     },
     click: () => {
@@ -227,6 +247,7 @@ const Scenes = {
     },
     update: () => {
       globals.ground.update();
+      globals.pipes.update();
     }
   },
   GAME: {
