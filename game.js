@@ -45,13 +45,6 @@ const createGround = () => {
   return ground;
 }
 
-const isColliding = (flappyBird, ground) => {
-  const flappyBirdY = flappyBird.y + flappyBird.height;
-  const groundY = ground.y;
-
-  return flappyBirdY >= groundY;
-}
-
 const createFlappyBird = () => {
   const flappyBird = {
     width: 33,
@@ -65,7 +58,7 @@ const createFlappyBird = () => {
       flappyBird.speed -= flappyBird.jumpHeight;
     },
     update: () => {
-      if (isColliding(flappyBird, globals.ground)) {
+      if (globals.ground.isColliding(flappyBird)) {
         hitSound.play();
         setTimeout(() => {
           changeScene(Scenes.START);

@@ -32,4 +32,8 @@ class Ground {
       this.width, this.height,
     )
   }
+
+  isColliding(flappyBird) {
+    return flappyBird.y + flappyBird.height >= this.y;
+  }
 }
