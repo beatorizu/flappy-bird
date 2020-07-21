@@ -1,5 +1,6 @@
 class FlappyBird {
-  constructor(width, height, x, y, speed, gravity, jumpHeight, moves, currentFrame) {
+  constructor(context, width, height, x, y, speed, gravity, jumpHeight, moves, currentFrame) {
+    this.context = context;
     this.width = width;
     this.height = height;
     this.x = x;
@@ -41,7 +42,7 @@ class FlappyBird {
   draw() {
     this.updateCurrentFrame();
     const { spriteX, spriteY } = this.moves[this.currentFrame];
-    context.drawImage(
+    this.context.drawImage(
       sprites,
       spriteX, spriteY,
       this.width, this.height,

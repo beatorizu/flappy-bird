@@ -11,16 +11,16 @@ let frames = 0;
 const canvas = document.querySelector('canvas');
 const context = canvas.getContext('2d');
 
-const background = new Background(sprites, 390, 0, 275, 204, 0, canvas.height - 204)
+const background = new Background(context, sprites, 390, 0, 275, 204, 0, canvas.height - 204)
 
 const createGround = () => {
-  const ground = new Ground(sprites, 0, 610, 224, 112, 0, canvas.height - 112);
+  const ground = new Ground(context, sprites, 0, 610, 224, 112, 0, canvas.height - 112);
 
   return ground;
 }
 
 const createFlappyBird = () => {
-  const flappyBird = new FlappyBird(33, 24, 10, 50, 0, 0.25, 4.6, [
+  const flappyBird = new FlappyBird(context, 33, 24, 10, 50, 0, 0.25, 4.6, [
     { spriteX: 0, spriteY: 0 },
     { spriteX: 0, spriteY: 26 },
     { spriteX: 0, spriteY: 52 },
@@ -31,7 +31,7 @@ const createFlappyBird = () => {
 }
 
 const createPipes = () => {
-  const pipes = new Pipes(52, 400, {
+  const pipes = new Pipes(context, 52, 400, {
     spriteX: 0,
     spriteY: 169
   }, {

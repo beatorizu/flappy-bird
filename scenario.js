@@ -1,5 +1,6 @@
 class Scenario {
-  constructor(sprite, spriteX, spriteY, width, height, x, y) {
+  constructor(context, sprite, spriteX, spriteY, width, height, x, y) {
+    this.context = context;
     this.sprite = sprite;
     this.spriteX = spriteX;
     this.spriteY = spriteY;
@@ -10,7 +11,7 @@ class Scenario {
   }
 
   draw() {
-    context.drawImage(
+    this.context.drawImage(
       this.sprite,
       this.spriteX, this.spriteY,
       this.width, this.height,
@@ -18,7 +19,7 @@ class Scenario {
       this.width, this.height,
     )
 
-    context.drawImage(
+    this.context.drawImage(
       this.sprite,
       this.spriteX, this.spriteY,
       this.width, this.height,

@@ -1,5 +1,6 @@
 class Pipes {
-  constructor(width, height, ground, sky, distanceBetweenPipes) {
+  constructor(context, width, height, ground, sky, distanceBetweenPipes) {
+    this.context = context;
     this.width = width;
     this.height = height;
     this.ground = ground;
@@ -14,7 +15,7 @@ class Pipes {
 
 			const skyPipeX = pair.x;
 			const skyPipeY = randomY;
-			context.drawImage(
+			this.context.drawImage(
 				sprites,
 				this.sky.spriteX, this.sky.spriteY,
 				this.width, this.height,
@@ -24,7 +25,7 @@ class Pipes {
 
 			const groundPipeX = pair.x;
 			const groundPipeY = this.height + this.distanceBetweenPipes + randomY;
-			context.drawImage(
+			this.context.drawImage(
 				sprites,
 				this.ground.spriteX, this.ground.spriteY,
 				this.width, this.height,

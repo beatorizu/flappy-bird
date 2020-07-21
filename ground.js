@@ -1,6 +1,6 @@
 class Ground extends Scenario {
-  constructor(sprite, spriteX, spriteY, width, height, x, y) {
-    super(sprite, spriteX, spriteY, width, height, x, y);
+  constructor(context, sprite, spriteX, spriteY, width, height, x, y) {
+    super(context, sprite, spriteX, spriteY, width, height, x, y);
   }
 
   update() {
