@@ -76,89 +76,13 @@ const createFlappyBird = () => {
 }
 
 const createPipes = () => {
-  const pipes = {
-    width: 52,
-    height: 400,
-    ground: {
-      spriteX: 0,
-      spriteY: 169
-    },
-    sky: {
-      spriteX: 52,
-      spriteY: 169
-    },
-    distanceBetweenPipes: 80,
-    draw: () => {
-      pipes.pairs.forEach(pair => {
-        const randomY = pair.y;
-
-        const skyPipeX = pair.x;
-        const skyPipeY = randomY;
-        context.drawImage(
-          sprites,
-          pipes.sky.spriteX, pipes.sky.spriteY,
-          pipes.width, pipes.height,
-          skyPipeX, skyPipeY,
-          pipes.width, pipes.height,
-        )
-
-        const groundPipeX = pair.x;
-        const groundPipeY = pipes.height + pipes.distanceBetweenPipes + randomY;
-        context.drawImage(
-          sprites,
-          pipes.ground.spriteX, pipes.ground.spriteY,
-          pipes.width, pipes.height,
-          groundPipeX, groundPipeY,
-          pipes.width, pipes.height,
-        )
-
-        pair.skyPipe = {
-          x: skyPipeX,
-          y: pipes.height + skyPipeY
-        }
-        pair.groundPipe = {
-          x: groundPipeX,
-          y: groundPipeY
-        }
-      });
-    },
-    isColliding: pair => {
-      const flappyBirdHead = globals.flappyBird.y
-      const flappyBirdFeet = globals.flappyBird.y + globals.flappyBird.height;
-
-      if (globals.flappyBird.x >= pair.x) {
-        if (flappyBirdHead <= pair.skyPipe.y) {
-          return true;
-        }
-        if (flappyBirdFeet >= pair.skyPipe.y) {
-          return true;
-        }
-        return false;
-      }
-    },
-    pairs: [],
-    update: () => {
-      const overFrame = frames % 100 === 0;
-      if (overFrame) {
-        pipes.pairs.push({
-          x: canvas.width,
-          y: -150 * (Math.random() + 1)
-        })
-      }
-
-      pipes.pairs.forEach(pair => {
-        pair.x -= 2;
-
-        if (pipes.isColliding(pair)) {
-          changeScene(Scenes.START)
-        }
-
-        if (pair.x <= -pipes.width) {
-          pipes.pairs.shift();
-        }
-      })
-    }
-  }
+  const pipes = new Pipes(52, 400, {
+    spriteX: 0,
+    spriteY: 169
+  }, {
+    spriteX: 52,
+    spriteY: 169
+  }, 80)
 
   return pipes;
 }
