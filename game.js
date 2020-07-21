@@ -20,57 +20,12 @@ const createGround = () => {
 }
 
 const createFlappyBird = () => {
-  const flappyBird = {
-    width: 33,
-    height: 24,
-    x: 10,
-    y: 50,
-    speed: 0,
-    gravity: 0.25,
-    jumpHeight: 4.6,
-    jump: () => {
-      flappyBird.speed -= flappyBird.jumpHeight;
-    },
-    update: () => {
-      if (globals.ground.isColliding(flappyBird)) {
-        hitSound.play();
-        setTimeout(() => {
-          changeScene(Scenes.START);
-        }, 500);
-        return;
-      }
-      flappyBird.speed += flappyBird.gravity;
-      flappyBird.y += flappyBird.speed;
-    },
-    moves: [
-      { spriteX: 0, spriteY: 0 },
-      { spriteX: 0, spriteY: 26 },
-      { spriteX: 0, spriteY: 52 },
-      { spriteX: 0, spriteY: 26 }
-    ],
-    currentFrame: 0,
-    updateCurrentFrame: () => {
-      const frameInterval = 10;
-      const overFrame = frames % frameInterval === 0;
-      if (overFrame) {
-        const incrementBase = 1;
-        const increment = incrementBase + flappyBird.currentFrame;
-        const repeatBase = flappyBird.moves.length;
-        flappyBird.currentFrame = increment % repeatBase;
-      }
-    },
-    draw: () => {
-      flappyBird.updateCurrentFrame();
-      const { spriteX, spriteY } = flappyBird.moves [flappyBird.currentFrame];
-      context.drawImage(
-        sprites,
-        spriteX, spriteY,
-        flappyBird.width, flappyBird.height,
-        flappyBird.x, flappyBird.y,
-        flappyBird.width, flappyBird.height,
-      )
-    }
-  }
+  const flappyBird = new FlappyBird(33, 24, 10, 50, 0, 0.25, 4.6, [
+    { spriteX: 0, spriteY: 0 },
+    { spriteX: 0, spriteY: 26 },
+    { spriteX: 0, spriteY: 52 },
+    { spriteX: 0, spriteY: 26 }
+  ], 0);
 
   return flappyBird;
 }
