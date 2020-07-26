@@ -20,7 +20,7 @@ const createGround = () => {
 }
 
 const createFlappyBird = () => {
-  const flappyBird = new FlappyBird(context, 33, 24, 10, 50, 0, 0.25, 4.6, [
+  const flappyBird = new FlappyBird(context, 33, 24, 10, 50, 0, 0.2, 4.6, [
     { spriteX: 0, spriteY: 0 },
     { spriteX: 0, spriteY: 26 },
     { spriteX: 0, spriteY: 52 },
