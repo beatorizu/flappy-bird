@@ -30,14 +30,14 @@ const createFlappyBird = () => {
   return flappyBird;
 }
 
-const createPipes = () => {
+const createPipes = flappyBird => {
   const pipes = new Pipes(context, 52, 400, {
     spriteX: 0,
     spriteY: 169
   }, {
     spriteX: 52,
     spriteY: 169
-  }, 80)
+  }, 80, flappyBird)
 
   return pipes;
 }
@@ -76,7 +76,7 @@ const Scenes = {
     init: () => {
       globals.flappyBird = createFlappyBird();
       globals.ground = createGround();
-      globals.pipes = createPipes();
+      globals.pipes = createPipes(globals.flappyBird);
     },
     draw: () => {
       background.draw();

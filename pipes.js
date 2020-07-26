@@ -1,5 +1,5 @@
 class Pipes {
-  constructor(context, width, height, ground, sky, distanceBetweenPipes) {
+  constructor(context, width, height, ground, sky, distanceBetweenPipes, flappyBird) {
     this.context = context;
     this.width = width;
     this.height = height;
@@ -7,6 +7,7 @@ class Pipes {
     this.sky = sky;
     this.distanceBetweenPipes = distanceBetweenPipes;
     this.pairs = [];
+    this.flappyBird = flappyBird;
   }
 
 	draw() {
@@ -45,10 +46,10 @@ class Pipes {
   }
 
   isColliding(pair) {
-		const flappyBirdHead = globals.flappyBird.y;
-		const flappyBirdFeet = globals.flappyBird.y + globals.flappyBird.height;
+		const flappyBirdHead = this.flappyBird.y;
+		const flappyBirdFeet = this.flappyBird.y + this.flappyBird.height;
 
-		if (globals.flappyBird.x >= pair.x) {
+		if (this.flappyBird.x >= pair.x) {
 			if (flappyBirdHead <= pair.skyPipe.y) {
 				return true;
 			}
