@@ -17,13 +17,6 @@ class FlappyBird {
   }
 
   update() {
-    if (globals.ground.isColliding(this)) {
-      hitSound.play();
-      setTimeout(() => {
-        changeScene(Scenes.START);
-      }, 500);
-      return;
-    }
     this.speed += this.gravity;
     this.y += this.speed;
   }

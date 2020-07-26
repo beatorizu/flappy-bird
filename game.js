@@ -102,6 +102,13 @@ const Scenes = {
       globals.flappyBird.jump()
     },
     update: () => {
+      if (globals.ground.isColliding(globals.flappyBird)) {
+        hitSound.play();
+        setTimeout(() => {
+          changeScene(Scenes.START);
+        }, 500);
+        return;
+      }
       globals.pipes.update();
       globals.ground.update();
       globals.flappyBird.update();
