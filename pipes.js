@@ -52,7 +52,7 @@ class Pipes {
 			if (flappyBirdHead <= pair.skyPipe.y) {
 				return true;
 			}
-			if (flappyBirdFeet >= pair.skyPipe.y) {
+			if (flappyBirdFeet >= pair.groundPipe.y) {
 				return true;
 			}
 			return false;
